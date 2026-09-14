@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">背单词</string>
+    <string name="btn_known">认识</string>
+    <string name="btn_unknown">不认识</string>
+    <string name="btn_new_book">新建词书</string>
+    <string name="btn_start_review">开始复习</string>
+    <string name="btn_start_learn">开始背词</string>
+    <string name="btn_take_photo">拍照</string>
+    <string name="btn_select_album">相册选择</string>
+    <string name="label_today_learn">今日学习</string>
+    <string name="label_today_review">今日复习</string>
+    <string name="label_total_words">总单词数</string>
+    <string name="label_mastered">已掌握</string>
+    <string name="label_unfamiliar">不熟</string>
+    <string name="hint_book_name">请输入词书名称</string>
+    <string name="loading_parsing">正在解析单词…</string>
+    <string name="error_parse_failed">解析失败，请重试</string>
+    <string name="error_empty_result">未识别到单词，请检查图片</string>
+    <string name="error_network">网络请求失败，请检查网络</string>
+    <string name="error_api_key">请先配置API Key</string>
+    <string name="empty_book_list">还没有词书，点击下方按钮新建</string>
+    <string name="empty_review">暂无需要复习的单词</string>
+    <string name="learn_complete">本轮背词完成</string>
+    <string name="review_complete">本轮复习完成</string>
+</resources>
