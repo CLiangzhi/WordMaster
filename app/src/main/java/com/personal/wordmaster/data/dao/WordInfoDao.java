@@ -47,4 +47,7 @@ public interface WordInfoDao {
 
     @Query("UPDATE word_info SET mastery_status = 0 WHERE book_id = :bookId AND mastery_status = 1")
     void resetAllMasteredInBook(long bookId);
+
+    @Query("SELECT * FROM word_info")
+    List<WordInfo> getAllWordsSync();
 }

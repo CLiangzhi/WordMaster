@@ -42,21 +42,19 @@ public class LearnViewModel extends AndroidViewModel {
         }).start();
     }
 
-    public void onKnown() {
+    public void recordKnown() {
         WordInfo word = currentWord.getValue();
         if (word == null) return;
         repository.updateWordAfterKnown(word);
-        nextWord();
     }
 
-    public void onUnknown() {
+    public void recordUnknown() {
         WordInfo word = currentWord.getValue();
         if (word == null) return;
         repository.updateWordAfterUnknown(word);
-        nextWord();
     }
 
-    private void nextWord() {
+    public void nextWord() {
         if (wordList == null) return;
         currentIndex++;
         if (currentIndex >= wordList.size()) {

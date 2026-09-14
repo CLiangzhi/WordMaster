@@ -6,10 +6,12 @@ import androidx.lifecycle.LiveData;
 
 import com.personal.wordmaster.WordMasterApp;
 import com.personal.wordmaster.algorithm.ReviewAlgorithm;
+import com.personal.wordmaster.data.dao.DictionaryWordDao;
 import com.personal.wordmaster.data.dao.StudyRecordDao;
 import com.personal.wordmaster.data.dao.WordBookDao;
 import com.personal.wordmaster.data.dao.WordInfoDao;
 import com.personal.wordmaster.data.database.AppDatabase;
+import com.personal.wordmaster.data.entity.DictionaryWord;
 import com.personal.wordmaster.data.entity.StudyRecord;
 import com.personal.wordmaster.data.entity.WordBook;
 import com.personal.wordmaster.data.entity.WordInfo;
@@ -29,6 +31,7 @@ public class WordRepository {
     private final WordBookDao bookDao;
     private final WordInfoDao wordDao;
     private final StudyRecordDao recordDao;
+    private final DictionaryWordDao dictionaryDao;
     private DeepSeekService deepSeekService;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -37,6 +40,7 @@ public class WordRepository {
         this.bookDao = db.wordBookDao();
         this.wordDao = db.wordInfoDao();
         this.recordDao = db.studyRecordDao();
+        this.dictionaryDao = db.dictionaryWordDao();
     }
 
     // ===== 词书操作 =====
@@ -199,11 +203,54 @@ public class WordRepository {
                 words.add(new WordInfo(bookId, e.getWord(), e.getMeaning(), now));
             }
             wordDao.insertAll(words);
+            addWordsToDictionary(words);
 
             callback.onSuccess(book, words);
         } catch (Exception e) {
             callback.onError("保存数据失败: " + e.getMessage());
         }
+    }
+
+    // ===== 单词库 =====
+
+    public LiveData<List<DictionaryWord>> searchDictionary(String query) {
+        return dictionaryDao.searchWords(query);
+    }
+
+    public void backfillDictionary() {
+        executor.execute(() -> {
+            List<WordInfo> all = wordDao.getAllWordsSync();
+            if (all != null && !all.isEmpty()) {
+                addWordsToDictionary(all);
+            }
+        });
+    }
+
+    private void addWordsToDictionary(List<WordInfo> words) {
+        for (WordInfo w : words) {
+            if (w.getWord() == null) continue;
+            String key = w.getWord().trim().toLowerCase();
+            if (key.isEmpty()) continue;
+            String newMeaning = w.getMeaning() == null ? "" : w.getMeaning().trim();
+            DictionaryWord existing = dictionaryDao.getByWord(key);
+            if (existing == null) {
+                dictionaryDao.insert(new DictionaryWord(key, newMeaning));
+            } else {
+                String merged = mergeMeaning(existing.getMeaning(), newMeaning);
+                if (!merged.equals(existing.getMeaning())) {
+                    existing.setMeaning(merged);
+                    dictionaryDao.update(existing);
+                }
+            }
+        }
+    }
+
+    private String mergeMeaning(String existing, String incoming) {
+        if (existing == null || existing.isEmpty()) return incoming == null ? "" : incoming;
+        if (incoming == null || incoming.isEmpty()) return existing;
+        if (existing.contains(incoming)) return existing;
+        if (incoming.contains(existing)) return incoming;
+        return existing + "；" + incoming;
     }
 
     // ===== 学习统计 =====

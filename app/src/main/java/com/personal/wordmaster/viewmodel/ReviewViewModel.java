@@ -43,21 +43,19 @@ public class ReviewViewModel extends AndroidViewModel {
         }).start();
     }
 
-    public void onKnown() {
+    public void recordKnown() {
         WordInfo word = currentWord.getValue();
         if (word == null) return;
         repository.updateWordAfterReviewKnown(word);
-        nextWord();
     }
 
-    public void onUnknown() {
+    public void recordUnknown() {
         WordInfo word = currentWord.getValue();
         if (word == null) return;
         repository.updateWordAfterReviewUnknown(word);
-        nextWord();
     }
 
-    private void nextWord() {
+    public void nextWord() {
         if (reviewList == null) return;
         currentIndex++;
         if (currentIndex >= reviewList.size()) {

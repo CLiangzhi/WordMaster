@@ -3,6 +3,7 @@ package com.personal.wordmaster;
 import android.app.Application;
 
 import com.personal.wordmaster.data.database.AppDatabase;
+import com.personal.wordmaster.repository.WordRepository;
 
 public class WordMasterApp extends Application {
 
@@ -14,6 +15,7 @@ public class WordMasterApp extends Application {
         super.onCreate();
         instance = this;
         database = AppDatabase.getInstance(this);
+        new WordRepository().backfillDictionary();
     }
 
     public static AppDatabase getDatabase() {

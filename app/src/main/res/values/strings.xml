@@ -3,6 +3,7 @@
     <string name="app_name">背单词</string>
     <string name="btn_known">认识</string>
     <string name="btn_unknown">不认识</string>
+    <string name="btn_next">下一个</string>
     <string name="btn_new_book">新建词书</string>
     <string name="btn_start_review">开始复习</string>
     <string name="btn_start_learn">开始背词</string>
@@ -20,6 +21,8 @@
     <string name="error_network">网络请求失败，请检查网络</string>
     <string name="error_api_key">请先配置API Key</string>
     <string name="empty_book_list">还没有词书，点击下方按钮新建</string>
+    <string name="hint_search">搜索单词</string>
+    <string name="search_empty">未找到相关单词</string>
     <string name="empty_review">暂无需要复习的单词</string>
     <string name="learn_complete">本轮背词完成</string>
     <string name="review_complete">本轮复习完成</string>

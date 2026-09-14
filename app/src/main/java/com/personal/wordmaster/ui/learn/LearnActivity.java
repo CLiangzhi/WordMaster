@@ -19,10 +19,11 @@ public class LearnActivity extends BaseActivity {
     private TextView tvProgress;
     private View divider;
     private View cardWord;
-    private View llButtons;
+    private View llAnswerArea;
     private View llComplete;
     private View btnKnown;
     private View btnUnknown;
+    private View btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,39 +43,42 @@ public class LearnActivity extends BaseActivity {
         tvProgress = findViewById(R.id.tv_progress);
         divider = findViewById(R.id.divider);
         cardWord = findViewById(R.id.card_word);
-        llButtons = findViewById(R.id.ll_buttons);
+        llAnswerArea = findViewById(R.id.ll_answer_area);
         llComplete = findViewById(R.id.ll_complete);
 
         btnKnown = findViewById(R.id.btn_known);
         btnUnknown = findViewById(R.id.btn_unknown);
+        btnNext = findViewById(R.id.btn_next);
 
         btnKnown.setOnClickListener(v -> onKnown());
         btnUnknown.setOnClickListener(v -> onUnknown());
+        btnNext.setOnClickListener(v -> onNext());
 
         observeViewModel();
         viewModel.loadWords(bookId);
     }
 
     private void onKnown() {
+        viewModel.recordKnown();
         showMeaningOnly();
         btnKnown.setEnabled(false);
         btnUnknown.setEnabled(false);
-        cardWord.postDelayed(() -> {
-            viewModel.onKnown();
-            btnKnown.setEnabled(true);
-            btnUnknown.setEnabled(true);
-        }, 800);
+        btnNext.setVisibility(View.VISIBLE);
     }
 
     private void onUnknown() {
+        viewModel.recordUnknown();
         showMeaningOnly();
         btnKnown.setEnabled(false);
         btnUnknown.setEnabled(false);
-        cardWord.postDelayed(() -> {
-            viewModel.onUnknown();
-            btnKnown.setEnabled(true);
-            btnUnknown.setEnabled(true);
-        }, 800);
+        btnNext.setVisibility(View.VISIBLE);
+    }
+
+    private void onNext() {
+        btnKnown.setEnabled(true);
+        btnUnknown.setEnabled(true);
+        btnNext.setVisibility(View.GONE);
+        viewModel.nextWord();
     }
 
     private void showMeaningOnly() {
@@ -104,7 +108,7 @@ public class LearnActivity extends BaseActivity {
         viewModel.complete.observe(this, complete -> {
             if (Boolean.TRUE.equals(complete)) {
                 cardWord.setVisibility(View.GONE);
-                llButtons.setVisibility(View.GONE);
+                llAnswerArea.setVisibility(View.GONE);
                 llComplete.setVisibility(View.VISIBLE);
             }
         });

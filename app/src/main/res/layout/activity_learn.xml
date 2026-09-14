@@ -26,7 +26,7 @@
         android:layout_marginBottom="24dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="3dp"
-        app:layout_constraintBottom_toTopOf="@id/ll_buttons"
+        app:layout_constraintBottom_toTopOf="@id/ll_answer_area"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_progress">
@@ -65,38 +65,56 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- 按钮区 -->
+    <!-- 答案区 -->
     <LinearLayout
-        android:id="@+id/ll_buttons"
+        android:id="@+id/ll_answer_area"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_unknown"
-            android:layout_width="0dp"
-            android:layout_height="64dp"
-            android:layout_marginEnd="12dp"
-            android:layout_weight="1"
-            android:text="@string/btn_unknown"
-            android:textSize="18sp"
-            app:backgroundTint="@color/btn_unknown"
-            app:cornerRadius="16dp"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+        <LinearLayout
+            android:id="@+id/ll_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_unknown"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:text="@string/btn_unknown"
+                android:textSize="18sp"
+                app:backgroundTint="@color/btn_unknown"
+                app:cornerRadius="16dp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_known"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/btn_known"
+                android:textSize="18sp"
+                app:backgroundTint="@color/btn_known"
+                app:cornerRadius="16dp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_known"
-            android:layout_width="0dp"
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:text="@string/btn_known"
+            android:text="@string/btn_next"
             android:textSize="18sp"
-            app:backgroundTint="@color/btn_known"
+            android:visibility="gone"
+            app:backgroundTint="@color/primary"
             app:cornerRadius="16dp"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
     </LinearLayout>
